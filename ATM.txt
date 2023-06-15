@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cajero Automático</title>
+  <script>
+    function cajeroAutomatico() {
+      var saldoCuenta = Math.floor(Math.random() * 5000000); // Genera un saldo aleatorio entre 0 y 5.000.000
+      var tarjetaLeida = parseInt(prompt("¿La tarjeta fue leída?\n1. Sí\n2. No"));
+
+      if (tarjetaLeida === 1) {
+        var opcionTarjeta = 0;
+        while (opcionTarjeta !== 1 && opcionTarjeta !== 2) {
+          opcionTarjeta = parseInt(prompt("Selecciona el tipo de tarjeta:\n1. Tarjeta de débito\n2. Tarjeta de crédito"));
+        }
+
+        var opcionesRetiro = [20000, 50000, 100000, 200000, 300000, 600000, 1000000];
+        var valorRetiro = 0;
+        do {
+          valorRetiro = parseInt(prompt("Selecciona el valor a retirar:\n" +
+            "1. $20,000\n" +
+            "2. $50,000\n" +
+            "3. $100,000\n" +
+            "4. $200,000\n" +
+            "5. $300,000\n" +
+            "6. $600,000\n" +
+            "7. $1,000,000"));
+        } while (valorRetiro < 1 || valorRetiro > opcionesRetiro.length);
+
+        var pinCorrecto = false;
+        while (!pinCorrecto) {
+          var pin = prompt("Ingresa tu contraseña de 4 dígitos:");
+          if (pin.length === 4 && /^\d+$/.test(pin)) {
+            pinCorrecto = true;
+          } else {
+            alert("Contraseña inválida. Debe ser un número de 4 dígitos.");
+          }
+        }
+
+        var montoRetiro = opcionesRetiro[valorRetiro - 1];
+        saldoCuenta -= montoRetiro;
+
+        alert("Retiro exitoso. Saldo restante: " + saldoCuenta.toLocaleString('es') + " pesos.");
+
+        var opcionRecibo = 0;
+        while (opcionRecibo !== 1 && opcionRecibo !== 2) {
+          opcionRecibo = parseInt(prompt("¿Deseas imprimir el recibo?\n1. Sí\n2. No"));
+        }
+
+        if (opcionRecibo === 1) {
+          alert("Recibo:\n" +
+            "Monto retirado: " + montoRetiro.toLocaleString('es') + " pesos\n" +
+            "Saldo restante: " + saldoCuenta.toLocaleString('es') + " pesos");
+        }
+
+        var otraTransaccion = 0;
+        while (otraTransaccion !== 1 && otraTransaccion !== 2) {
+          otraTransaccion = parseInt(prompt("¿Deseas realizar otra transacción antes de retirar la tarjeta?\n1. Sí\n2. No"));
+        }
+
+        if (otraTransaccion === 1) {
+          cajeroAutomatico();
+        } else {
+          alert("Retira tu tarjeta. Gracias por utilizar el cajero automático.");
+        }
+      } else if (tarjetaLeida === 2) {
+        alert("La tarjeta no fue leída. Gracias por utilizar el cajero automático.");
+      } else {
+        alert("Opción inválida. Por favor, selecciona una opción correcta.");
+        cajeroAutomatico();
+      }
+    }
+  </script>
+</head>
+<body>
+  <button onclick="cajeroAutomatico()">Iniciar Cajero Automático</button>
+</body>
+</html>
